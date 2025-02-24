@@ -7,7 +7,7 @@ class Product {
         this.stock = stock; // product stock
     }
     getDetails() {
-        return `Product: ${this.name}, ID: ${this.id}, Price: ${this.price}, Stock: ${this.stock}`;
+        return `Product: ${this.name}, ID: ${this.id}, Price: $${this.price}, Stock: ${this.stock}`;
     }; // product details
     updateStock(quantity) {
         this.stock -= quantity;
@@ -29,7 +29,7 @@ class Order {
         this.product.updateStock(quantity); // update stock
     }
     getOrderDetails() {
-        return `Order ID: ${this.orderId}, Product: ${this.product.name}, Quantity: ${this.quantity}, Total Price: ${this.product.price * this.quantity}`;
+        return `Order ID: ${this.orderId}, Product: ${this.product.name}, Quantity: ${this.quantity}, Total Price: $${this.product.price * this.quantity}`;
     }; // order details
 };// order class
 
@@ -41,6 +41,7 @@ console.log(prod1.getDetails()); // Product: Laptop, ID: 101, Price: 1200, Stock
 class Inventory {
     constructor() {
     this.products = []; // products
+    this.orders = []; // orders
     }
     addProduct(product) {
         this.products.push(product); // add product
@@ -48,8 +49,22 @@ class Inventory {
     listProducts() {
         this.products.forEach(product => console.log(product.getDetails())); // list products
     }
+    // Task 4: Implementing Order Management
+    placeOrder(orderId, product, quantity) {
+        if (product.stock >= quantity) {
+            const order = new Order(orderId, product, quantity); // new order
+            this.orders.push(order); // add order
+        }
+        }
+    listOrders() {
+        this.orders.forEach(order => console.log(order.getOrderDetails())); // list orders
+    }    
 }; // inventory class
 
 const inventory = new Inventory(); // new inventory
 inventory.addProduct(prod1); // added product
 inventory.listProducts(); // list of current products
+
+inventory.placeOrder(601, prod1, 2);
+inventory.listOrders(); // Order ID: 601, Product: Laptop, Quantity: 2, Total Price: $2400
+console.log(prod1.getDetails()); // Product: Laptop, ID: 101, Price: $1200, Stock: 3
